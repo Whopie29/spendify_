@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Analysis Result</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      background-image: linear-gradient(to bottom, #3e5eb5, #0086d7, #00abe2, #00cdd9, #12ebc3);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      filter: blur(4px) brightness(70%);
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: -1;
+    }
+
+    h2, h3, h4, h5, p, td, th, li, label {
+      color: #ffffff !important;
+    }
+
+    h2 {
+      font-family: 'Abril Fatface', serif;
+      font-size: 48px;
+      text-align: center;
+    }
+
+    h3, h4 {
+      font-family: 'Zain', sans-serif;
+      font-weight: 400;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      margin-top: 40px;
+    }
+
+    .table {
+      color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .table th, .table td {
+      background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .table thead th {
+      background: linear-gradient(135deg, rgba(62, 94, 181, 0.98), rgba(0, 134, 215, 0.98)) !important;
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .table-container {
+      max-height: 500px;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .table-container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .table-container::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .form-control {
+      border-radius: 8px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, #007bff, #0056b3);
+      border: none;
+      border-radius: 8px;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(45deg, #0056b3, #003974);
+    }
+
+    .btn-success {
+      background: linear-gradient(45deg, #00c851, #007e33);
+      border: none;
+      border-radius: 8px;
+    }
+
+    .btn-success:hover {
+      background: linear-gradient(45deg, #007e33, #004d1a);
+    }
+
+    .btn-secondary {
+      border-radius: 8px;
+    }
+
+    .list-group-item {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .alert-warning, .alert-danger {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border: none;
+    }
+
+    img.img-fluid {
+      max-width: 90%;
+      border-radius: 12px;
+      margin: 10px 0;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .chart-carousel {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chart-container {
+      text-align: center;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    #current-chart {
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    #current-chart.fade-out {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    .chart-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .chart-nav:hover {
+      background: rgba(255, 255, 255, 0.35);
+      transform: translateY(-50%) scale(1.15);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .chart-nav:active {
+      transform: translateY(-50%) scale(1.05);
+      transition: all 0.1s ease;
+    }
+
+    .chart-nav.prev {
+      left: 20px;
+    }
+
+    .chart-nav.next {
+      right: 20px;
+    }
+
+    .chart-indicator {
+      text-align: center;
+      margin-top: 15px;
+      color: white;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    #chart-title {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 5px;
+      transition: all 0.4s ease;
+      transform: translateY(0);
+    }
+
+    #chart-title.slide-up {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+
+    #chart-counter {
+      font-size: 14px;
+      opacity: 0.8;
+      transition: all 0.3s ease;
+    }
+
+    .fa-spin {
+      animation: fa-spin 2s infinite linear;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+
+  <script>
+    let currentChart = 1;
+    const totalCharts = 9;
+    const chartTitles = [
+      'Daily Withdrawals and Deposits',
+      'Total Withdrawals vs Deposits',
+      'Account Balance Trend Over Time',
+      'Distribution of Transaction Amounts',
+      'Most Frequent Transactions',
+      'Top Transactions by Withdrawal Amount',
+      'Daily Cash Flow Analysis',
+      'Financial Summary - Statistical Overview',
+      'Transaction Category Distribution'
+    ];
+
+    function updateChart() {
+      const chartImg = document.getElementById('current-chart');
+      const chartTitle = document.getElementById('chart-title');
+      const chartCounter = document.getElementById('chart-counter');
+      
+      // Add fade out animation
+      chartImg.classList.add('fade-out');
+      chartTitle.classList.add('slide-up');
+      
+      setTimeout(() => {
+        // Update content
+        chartImg.src = `{{ url_for('static', filename='') }}graph${currentChart}.png`;
+        chartTitle.textContent = chartTitles[currentChart - 1];
+        chartCounter.textContent = `${currentChart} / ${totalCharts}`;
+        
+        // Remove animations to fade back in
+        chartImg.classList.remove('fade-out');
+        chartTitle.classList.remove('slide-up');
+      }, 250);
+    }
+
+    function nextChart() {
+      currentChart = currentChart < totalCharts ? currentChart + 1 : 1;
+      updateChart();
+    }
+
+    function prevChart() {
+      currentChart = currentChart > 1 ? currentChart - 1 : totalCharts;
+      updateChart();
+    }
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight') nextChart();
+      if (e.key === 'ArrowLeft') prevChart();
+    });
+
+    function showPredictionSection() {
+        document.getElementById('prediction-section').style.display = 'block';
+    }
+
+    function showPredictiongraph() {
+        document.getElementById('prediction-graph').style.display = 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const predictionForm = document.getElementById('prediction-form');
+        if (predictionForm) {
+            predictionForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const predictBtnText = document.getElementById('predictBtnText');
+                const predictLoadingIcon = document.getElementById('predictLoadingIcon');
+                const predictBtn = document.getElementById('predictBtn');
+                
+                predictBtnText.textContent = 'Predicting your balance';
+                predictLoadingIcon.style.display = 'inline-block';
+                predictLoadingIcon.style.animation = 'spin 1s linear infinite';
+                predictBtn.disabled = true;
+                
+                const formData = new FormData(predictionForm);
+                fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    predictBtnText.textContent = 'Predict';
+                    predictLoadingIcon.style.display = 'none';
+                    predictLoadingIcon.style.animation = '';
+                    predictBtn.disabled = false;
+                    
+                    if (data.success) {
+                        document.getElementById('stats-target').innerHTML = `
+                            <p>Current Balance: ₹${data.current_balance}</p>
+                            <p>Predicted Balance (in ${data.days} days): ₹${data.predicted_balance}</p>
+                        `;
+
+                        const tableContainer = document.getElementById('forecast-table-container');
+                        let tableHTML = `
+                            <h4 class="mt-4">Forecast Table</h4>
+                            <table class="table table-striped table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>ARIMA Prediction</th>
+                                        <th>LSTM Prediction</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                        `;
+                        data.prediction_data.forEach(row => {
+                            const date = new Date(row.Date).toLocaleDateString();
+                            tableHTML += `
+                                <tr>
+                                    <td>${date}</td>
+                                    <td>₹${row.ARIMA_Prediction.toFixed(2)}</td>
+                                    <td>₹${row.LSTM_Prediction.toFixed(2)}</td>
+                                </tr>
+                            `;
+                        });
+                        tableHTML += '</tbody></table>';
+                        tableContainer.innerHTML = tableHTML;
+
+                        showPredictiongraph();
+
+                        const budgetBtn = document.getElementById('generate-budget-btn');
+                        budgetBtn.style.display = 'inline-block';
+                        budgetBtn.addEventListener('click', function() {
+                            const budgetData = data.budget_data;
+                            const budgetDetails = document.getElementById('budget-details');
+
+                            function buildTable(title, obj) {
+                                if (!obj) return '';
+                                let html = `<h5 class="mt-4">${title}</h5><table class="table table-sm table-bordered"><tbody>`;
+                                for (const [key, val] of Object.entries(obj)) {
+                                    html += `<tr><td>${key}</td><td>₹${val.toFixed(2)}</td></tr>`;
+                                }
+                                return html + '</tbody></table>';
+                            }
+
+                            let html = `
+                                <h4 class="mt-3">AI-Based Budget Suggestion for Next Month</h4>
+                                <ul class="list-group">
+                                    <li class="list-group-item"><strong>Predicted Income:</strong> ₹${budgetData.predicted_income.toFixed(2)}</li>
+                                    <li class="list-group-item"><strong>Predicted Expenses:</strong> ₹${budgetData.predicted_expense.toFixed(2)}</li>
+                                    <li class="list-group-item"><strong>Recommended Savings (${(budgetData.savings_ratio * 100).toFixed(0)}%):</strong> ₹${budgetData.dynamic_savings.toFixed(2)}</li>
+                                    <li class="list-group-item"><strong>Essential Expenses (70%):</strong> ₹${budgetData.essential_expense.toFixed(2)}</li>
+                                    <li class="list-group-item"><strong>Non-Essential Expenses (30%):</strong> ₹${budgetData.non_essential_expense.toFixed(2)}</li>
+                                </ul>
+                            `;
+                            html += buildTable('Expense Breakdown by Category (Excl. Transfers)', budgetData.category_expense);
+                            html += buildTable('Adaptive Budget Allocation Based on Past Trends', budgetData.adaptive_allocation);
+
+                            if (budgetData.over_spending) {
+                                html += `<div class="alert alert-warning mt-3"><h5>⚠️ Overspending Alert</h5>` +
+                                        buildTable('You are predicted to overspend in these categories:', budgetData.over_spending) +
+                                        `</div>`;
+                            }
+
+                            if (budgetData.income_warning) {
+                                html += `<div class="alert alert-danger mt-3">${budgetData.income_warning}</div>`;
+                            }
+
+                            budgetDetails.innerHTML = html;
+
+                            const timestamp = new Date().getTime();
+                            document.getElementById('budget-graph1').src = `{{ url_for('static', filename='graph10.png') }}?t=${timestamp}`;
+                            document.getElementById('budget-graph2').src = `{{ url_for('static', filename='graph11.png') }}?t=${timestamp}`;
+                            document.getElementById('budget-section').style.display = 'block';
+                        }, { once: true });
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    predictBtnText.textContent = 'Predict';
+                    predictLoadingIcon.style.display = 'none';
+                    predictLoadingIcon.style.animation = '';
+                    predictBtn.disabled = false;
+                    console.error('Error:', error);
+                    alert('An error occurred while processing the prediction.');
+                });
+            });
+        }
+    });
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Analysis Completed</h2>
+    <p class="text-center">Your file <strong>{{ filename }}</strong> has been processed.</p>
+    {% if bank_name %}
+    <p class="text-center">Detected Bank: <strong>{{ bank_name }}</strong></p>
+    {% endif %}
+
+    <h3 class="mt-4">Extracted Transactions</h3>
+    <div class="table-container">
+      {{ table_html | safe }}
+    </div>
+
+    <h3 class="mt-4">Analysis Charts</h3>
+    <div class="chart-carousel">
+      <button class="chart-nav prev" onclick="prevChart()" title="Previous Chart">‹</button>
+      <div class="chart-container">
+        <img id="current-chart" src="{{ url_for('static', filename='graph1.png') }}" class="img-fluid">
+        <div class="chart-indicator">
+          <span id="chart-title">Daily Withdrawals and Deposits</span>
+          <br>
+          <span id="chart-counter">1 / 9</span>
+        </div>
+      </div>
+      <button class="chart-nav next" onclick="nextChart()" title="Next Chart">›</button>
+    </div>
+    <div class="text-center mt-4">
+      <button type="button" class="btn btn-primary" onclick="showPredictionSection()">Predict Your Balance</button>
+    </div>
+
+    <div id="prediction-section" style="display: none;">
+      <br>
+      <form action="/predict" method="post" id="prediction-form">
+        <input type="number" name="days" placeholder="Enter the number of days you want to predict the balance" class="form-control mb-3" min="1" max="365" value="30">
+        <button type="submit" class="btn btn-primary" id="predictBtn">
+          <span id="predictBtnText">Predict</span>
+          <span id="predictLoadingIcon" style="display: none; margin-left: 8px; width: 16px; height: 16px; border: 2px solid #ffffff; border-top: 2px solid transparent; border-radius: 50%;"></span>
+        </button>
+      </form>
+    </div>
+
+    <div id="prediction-graph" style="display: none;">
+      <div id="stats-target"></div>
+      <h3 class="mt-4">Prediction Analysis Charts</h3>
+      <div id="forecast-table-container" class="table-responsive mt-3"></div>
+      <div class="text-center mt-4">
+        <button type="button" id="generate-budget-btn" class="btn btn-success" style="display: none;">💸 Generate Budget Suggestion</button>
+      </div>
+    </div>
+
+    <div id="budget-section" style="display: none;">
+      <h3 class="mt-4">AI-Based Budget Suggestion</h3>
+      <div id="budget-details" class="mt-3"></div>
+      <h3 class="mt-4">Budget Charts</h3>
+      <div class="text-center mt-3">
+        <img id="budget-graph1" src="" class="img-fluid" alt="Expense Breakdown">
+        <img id="budget-graph2" src="" class="img-fluid" alt="Budget Allocation">
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="/dashboard" class="btn btn-primary me-2">📊 Interactive Dashboard</a>
+      <a href="/simple_report" class="btn btn-success me-2">📄 Download Report</a>
+      <a href="/upload" class="btn btn-secondary">Upload Another File</a>
+    </div>
+
+    <!-- Floating Assistant Button -->
+    <div id="assistant-btn" onclick="toggleChat()" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: linear-gradient(45deg, #667eea, #764ba2); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 1000; transition: all 0.3s ease;">
+      <span style="font-size: 24px; color: white;">🤖</span>
+    </div>
+
+    <!-- Chat Modal -->
+    <div id="chat-modal" style="display: none; position: fixed; bottom: 90px; right: 20px; width: 350px; height: 450px; background: rgba(255,255,255,0.95); border-radius: 15px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); z-index: 1001; backdrop-filter: blur(10px);">
+      <div style="padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.1); display: flex; justify-content: between; align-items: center;">
+        <h5 style="margin: 0; color: #333;">🤖 AI Financial Advisor</h5>
+        <button onclick="toggleChat()" style="background: none; border: none; font-size: 18px; cursor: pointer; color: #666;">×</button>
+      </div>
+      
+      <div id="chat-container" style="height: 300px; overflow-y: auto; padding: 15px; background: #f8f9fa;">
+        <div class="chat-message assistant-message">
+          <strong>🤖 AI:</strong> Hi! Ask me about your finances - I'll give you quick, helpful advice!
+        </div>
+      </div>
+      
+      <div style="padding: 15px; border-top: 1px solid rgba(0,0,0,0.1);">
+        <div class="input-group">
+          <input type="text" id="chat-input" class="form-control" placeholder="Ask about your spending..." style="border-radius: 20px; border: 1px solid #ddd;">
+          <button class="btn btn-primary" onclick="sendMessage()" id="send-btn" style="border-radius: 20px; margin-left: 5px;">
+            <span id="send-text">Send</span>
+            <span id="loading-spinner" style="display: none;">⏳</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .chat-message {
+      margin-bottom: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .assistant-message {
+      background: #e3f2fd;
+      border-left: 3px solid #2196f3;
+      color: #333;
+    }
+    .user-message {
+      background: #e8f5e8;
+      border-left: 3px solid #4caf50;
+      text-align: right;
+      color: #333;
+    }
+    #assistant-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+    }
+  </style>
+
+  <script>
+    function toggleChat() {
+      const modal = document.getElementById('chat-modal');
+      modal.style.display = modal.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const question = input.value.trim();
+      
+      if (!question) return;
+      
+      const chatContainer = document.getElementById('chat-container');
+      const sendBtn = document.getElementById('send-btn');
+      const sendText = document.getElementById('send-text');
+      const loadingSpinner = document.getElementById('loading-spinner');
+      
+      // Add user message
+      chatContainer.innerHTML += `
+        <div class="chat-message user-message">
+          <strong>You:</strong> ${question}
+        </div>
+      `;
+      
+      input.value = '';
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      
+      // Show loading state
+      sendText.style.display = 'none';
+      loadingSpinner.style.display = 'inline';
+      sendBtn.disabled = true;
+      
+      // Send to LangGraph assistant
+      fetch('/assistant', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ question: question })
+      })
+      .then(response => response.json())
+      .then(data => {
+        chatContainer.innerHTML += `
+          <div class="chat-message assistant-message">
+            <strong>🤖 AI:</strong> ${data.response || data.error}
+          </div>
+        `;
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      })
+      .catch(error => {
+        chatContainer.innerHTML += `
+          <div class="chat-message assistant-message">
+            <strong>🤖 AI:</strong> Sorry, try again!
+          </div>
+        `;
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      })
+      .finally(() => {
+        sendText.style.display = 'inline';
+        loadingSpinner.style.display = 'none';
+        sendBtn.disabled = false;
+      });
+    }
+    
+    document.getElementById('chat-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
