@@ -1,205 +1,140 @@
-# SPENDIFY - Multi-Bank Financial Analyzer
+💸 SPENDIFY – Your Multi-Bank AI Financial Companion
 
-SPENDIFY is a comprehensive financial analysis tool that supports multiple Indian banks for analyzing bank statements, predicting future balances, and generating AI-based budget suggestions.
+Spend smarter, save better.
+SPENDIFY brings all your Indian bank statements together, analyzes them, predicts your balances, and helps you budget with the power of AI.
 
-## 🏦 Supported Banks
+🚀 Why SPENDIFY?
 
-The application now supports the following banks:
+Managing multiple bank accounts is messy. SPENDIFY makes it effortless:
 
-1. **HDFC Bank** - Default support with original column format
-2. **State Bank of India (SBI)** - Supports SBI statement format
-3. **Kotak Mahindra Bank** - Supports Kotak statement format
+📥 Upload statements from HDFC, SBI, Kotak (more coming soon)
 
-## 🚀 Features
+🤖 Get AI-powered insights, predictions & budget suggestions
 
-### Multi-Bank Support
-- **Auto-Detection**: Automatically detects your bank based on statement format
-- **Manual Selection**: Choose your bank manually if auto-detection fails
-- **Standardized Processing**: All banks are processed using a unified format
+📊 See your money through beautiful, interactive charts
 
-### Core Features
-- **PDF Processing**: Upload password-protected or unprotected PDF statements
-- **Transaction Analysis**: Comprehensive analysis of spending patterns
-- **Visual Analytics**: 11 different charts and visualizations
-- **Transaction Classification**: AI-powered categorization of transactions
-- **Balance Prediction**: LSTM and ARIMA-based future balance forecasting
-- **Budget Suggestions**: AI-generated budget recommendations
+💬 Chat with an AI chatbot to understand your financial health
 
-## 📊 Supported Column Formats
+📑 Export downloadable reports anytime
 
-### HDFC Bank
-- Date, Narration, Chq. / Ref No., Withdrawal Amount, Deposit Amount, Closing Balance*
+🏦 Supported Banks
 
-### SBI (State Bank of India)
-- Value Dt, Transaction Remarks, Cheque Number, Withdrawal Amt., Deposit Amt., Balance
+✔ HDFC Bank
+✔ State Bank of India (SBI)
+✔ Kotak Mahindra Bank
+(Easily extendable to more banks)
 
-### Kotak Mahindra Bank
-- DATE, TRANSACTION DETAILS, CHEQUE/REFERENCE#, DEBIT, CREDIT, BALANCE
+🌟 Core Features
+🔹 Landing Page
 
+A clean, modern entry point introducing SPENDIFY with quick navigation.
 
+🔹 Upload Page
 
-## 🛠️ Installation
+Upload password-protected/unprotected PDFs
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
+Auto-detects bank type
+
+Manual bank selection if needed
+
+🔹 Analysis Page + AI Chatbot
+
+Smart transaction analysis
+
+AI chatbot answers queries like “Where did I spend most last month?”
+
+Auto-categorizes expenses: Food, Bills, Transport, Entertainment, etc.
+
+🔹 Interactive Dashboard
+
+Balance trends over time
+
+Daily/weekly/monthly summaries
+
+Income vs. expense ratio
+
+Overspending alerts
+
+🔹 Downloadable Reports
+
+Export insights to PDF / Excel
+
+Ready to share with advisors or keep for records
+
+🔹 Interactive Graphs & Visuals
+
+Daily deposits vs withdrawals
+
+Expense category breakdown
+
+Most frequent transactions
+
+Predictive balance curve (LSTM + ARIMA)
+
+Budget allocation pie charts
+
+🔮 Predictive & AI Features
+
+Future Balance Prediction: LSTM (deep learning) + ARIMA (time series)
+
+Smart Budget Suggestions: AI generates personalized budget plans
+
+Spending Insights: Identify unusual spending patterns instantly
+
+🛠️ Installation
+git clone <repo-url>
 cd spendify
-```
-
-2. Install dependencies:
-```bash
 pip install -r requirements.txt
-```
+cp .env.example .env   # Add your GROQ_API_KEY
 
-3. Configure environment (for AI features):
-```bash
-cp .env.example .env
-# Edit .env and add your GROQ_API_KEY
-```
 
-4. Run the application:
+Run it in two ways:
 
-### Flask Version (Web Interface)
-```bash
+Flask (Web)
 python app.py
-```
-Then open http://localhost:5000 in your browser.
 
-### Streamlit Version (Interactive Interface)
-```bash
+
+→ Open http://localhost:5000
+
+Streamlit (Interactive)
 streamlit run web.py
-```
 
-## 📖 Usage
+🎯 Use Cases
 
-### Step 1: Select Your Bank
-- Choose your bank from the dropdown menu
-- Or select "Auto Detect Bank" for automatic detection
+Personal finance tracking
 
-### Step 2: Upload Statement
-- Upload your bank statement PDF
-- Enter password if the PDF is password-protected
+Multi-bank expense comparison
 
-### Step 3: Analysis
-- The system will automatically process your statement
-- View extracted transactions and analysis charts
+Budget planning with AI suggestions
 
-### Step 4: Predictions
-- Generate future balance predictions
-- Get AI-based budget suggestions
+Predicting future account balances
 
-## 📈 Analysis Features
+Categorizing and analyzing spending habits
 
-### Transaction Analysis
-- Daily withdrawal vs deposit trends
-- Total withdrawal vs deposit comparison
-- Closing balance over time
-- Transaction amount distribution
-- Most frequent transactions
-- Top withdrawal amounts
+🔒 Security
 
-### Transaction Classification
-- Food/Clothing
-- Entertainment
-- Recharge
-- Rent/Bills
-- Transport
-- Emergency
-- Banking
-- Gaming
-- Trading
-- Personal Transfer
+Local-only processing (no external servers)
 
-### Predictive Analytics
-- **LSTM Model**: Deep learning-based balance prediction
-- **ARIMA Model**: Statistical time series forecasting
-- **Model Comparison**: Both models provide different perspectives
+Secure handling of password-protected PDFs
 
-### Budget System
-- AI-based budget allocation
-- Category-wise expense breakdown
-- Adaptive budget suggestions
-- Overspending alerts
-- Income-expense ratio analysis
+Session-based privacy controls
 
-## 🔧 Technical Details
+📸 Sneak Peek (Pages Flow)
 
-### Bank Detection Algorithm
-The system uses multiple strategies to detect the bank:
-1. **Keyword Matching**: Looks for bank-specific terms in column headers
-2. **Column Pattern Matching**: Matches column names to known bank formats
-3. **Fallback**: Defaults to HDFC format if no match is found
+1️⃣ Landing Page → 2️⃣ Upload Statement → 3️⃣ AI Analysis + Chatbot → 4️⃣ Dashboard → 5️⃣ Download Reports
 
-### Data Standardization
-All bank formats are standardized to a common format:
-- Date → Date
-- Narration → Narration
-- Cheque/Reference → Chq. / Ref No.
-- Withdrawal → Withdrawal Amount
-- Deposit → Deposit Amount
-- Balance → Closing Balance*
+📝 License
 
-### Error Handling
-- Robust error handling for different PDF formats
-- Graceful fallback for unsupported banks
-- Detailed error messages for troubleshooting
+MIT License – free to use, modify, and share.
 
-## 🎯 Use Cases
+🤝 Contributing
 
-1. **Personal Finance Management**: Track spending patterns across multiple accounts
-2. **Budget Planning**: Get AI-powered budget suggestions
-3. **Financial Forecasting**: Predict future account balances
-4. **Expense Categorization**: Automatically categorize transactions
-5. **Multi-Bank Analysis**: Compare spending across different banks
+Open to PRs! Add support for more banks, improve AI models, or enhance dashboards.
 
-## 🔒 Security
+📞 Support
 
-- Password-protected PDF support
-- Local processing (no data sent to external servers)
-- Session-based data management
-- Secure file handling
+Open an issue on GitHub
 
-## 🐛 Troubleshooting
+Check the troubleshooting guide
 
-### Common Issues
-
-1. **PDF Not Processing**
-   - Ensure the PDF is a bank statement
-   - Check if the PDF is corrupted
-   - Try with a different PDF reader
-
-2. **Wrong Bank Detected**
-   - Manually select your bank from the dropdown
-   - Check if your statement format matches the expected format
-
-3. **Columns Not Recognized**
-   - Verify that your statement has the expected column headers
-   - Contact support if your bank format is not supported
-
-### Adding New Banks
-
-To add support for a new bank:
-
-1. Add bank configuration to `BANK_CONFIGS` in `main.py`
-2. Update the `detect_bank()` function
-3. Test with sample statements
-4. Update documentation
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📞 Support
-
-For support and questions:
-- Create an issue on GitHub
-- Check the troubleshooting section
-- Review the documentation
-
----
-
-**Note**: This application is designed for educational and personal use. Always verify financial calculations and consult with financial advisors for important financial decisions.
+🔥 With SPENDIFY, your money finally makes sense.
