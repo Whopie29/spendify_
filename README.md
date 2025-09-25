@@ -95,19 +95,6 @@ streamlit run web.py
 
 ---
 
-## 📊 Supported Column Formats
-
-### HDFC Bank
-- Date, Narration, Chq. / Ref No., Withdrawal Amount, Deposit Amount, Closing Balance*
-
-### SBI (State Bank of India)
-- Value Dt, Transaction Remarks, Cheque Number, Withdrawal Amt., Deposit Amt., Balance
-
-### Kotak Mahindra Bank
-- DATE, TRANSACTION DETAILS, CHEQUE/REFERENCE#, DEBIT, CREDIT, BALANCE
-
----
-
 ## 🎯 Use Cases
 
 - Personal finance tracking
@@ -146,17 +133,6 @@ streamlit run web.py
 - Most frequent transactions
 - Top withdrawal amounts
 
-### Transaction Classification
-- Food/Clothing
-- Entertainment
-- Recharge
-- Rent/Bills
-- Transport
-- Emergency
-- Banking
-- Gaming
-- Trading
-- Personal Transfer
 
 ### Predictive Analytics
 - **LSTM Model**: Deep learning-based balance prediction
@@ -244,3 +220,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 ## 🔥 With SPENDIFY, your money finally makes sense.
 
 **Note**: This application is designed for educational and personal use. Always verify financial calculations and consult with financial advisors for important financial decisions.
+
